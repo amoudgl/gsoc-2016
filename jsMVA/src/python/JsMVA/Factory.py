@@ -359,15 +359,17 @@ def DrawCutEfficiencies(fac, datasetName, methodName):
     JPyInterface.JsDraw.Draw(c)
 
 
-def DrawNeuralNetwork(fac, datasetName, methodName):
-    # m = GetMethodObject(fac, datasetName, methodName)
-    # if m==None:
-    #     return None
-    if (methodName=="DNN"):
-        net = GetDeepNetwork("ae_transform_dataset/weights/TMVARegression_DNN.weights.xml")
-        # net = GetDeepNetwork(str(m.GetWeightFileName()))
+def DrawNeuralNetwork(fac, datasetName, methodName, drawAutoencoder):
+    if (drawAutoencoder):
+       net = GetDeepNetwork("ae_transform_dataset/weights/TMVARegression_DNN.weights.xml") 
     else:
-        net = GetNetwork(str(m.GetWeightFileName()))
+        m = GetMethodObject(fac, datasetName, methodName)
+        if m==None:
+            return None
+        if (methodName=="DNN"):
+            net = GetDeepNetwork(str(m.GetWeightFileName()))
+        else:
+            net = GetNetwork(str(m.GetWeightFileName()))
     JPyInterface.JsDraw.Draw(net, "drawNeuralNetwork", True)
 
 
